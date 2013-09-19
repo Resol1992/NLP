@@ -1,4 +1,4 @@
-package com.ansj.vec;
+package com.sps.nlp;
  
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -17,10 +17,10 @@ public class Word2VEC {
     public static void main(String[] args) throws IOException {
 	Word2VEC vec = new Word2VEC();
 	vec.loadModel("vectors.bin");
-//	 System.out.println(vec.distance("男人"));
-	System.out.println(vec.analogy("中华民国", "中华人民共和国", "毛泽东"));
+//	 System.out.println(vec.distance("Man"));
+	System.out.println(vec.analogy("Republic of China", "People", "Mao Zedong"));
 	
-	//男人 国王 女人 
+	//Man Woman King 
     }
  
     private HashMap<String, float[]> wordMap = new HashMap<String, float[]>();
@@ -30,10 +30,10 @@ public class Word2VEC {
     private int topNSize = 40;
  
     /**
-     * 加载模型
+     * Load Model
      * 
      * @param path
-     *            模型的路径
+     *            The path model
      * @throws IOException
      */
     public void loadModel(String path) throws IOException {
@@ -44,9 +44,9 @@ public class Word2VEC {
 	try {
 	    bis = new BufferedInputStream(new FileInputStream(path));
 	    dis = new DataInputStream(bis);
-	    // //读取词数
+	    // //Number of words read
 	    words = Integer.parseInt(readString(dis));
-	    // //大小
+	    // //Size
 	    size = Integer.parseInt(readString(dis));
  
 	    String word;
@@ -78,7 +78,7 @@ public class Word2VEC {
     private static final int MAX_SIZE = 50;
  
     /**
-     * 得到近义词
+     * Get synonyms
      * 
      * @param word
      * @return
@@ -108,7 +108,7 @@ public class Word2VEC {
     }
  
     /**
-     * 近义词
+     * Synonyms
      * @return 
      */
     public TreeSet<WordEntry> analogy(String word0, String word1, String word2) {
@@ -142,7 +142,7 @@ public class Word2VEC {
     }
  
     private void insertTopN(String name, float score, List<WordEntry> wordsEntrys) {
-	// TODO Auto-generated method stub
+
 	if (wordsEntrys.size() < topNSize) {
 	    wordsEntrys.add(new WordEntry(name, score));
 	    return;
@@ -174,13 +174,13 @@ public class Word2VEC {
  
 	@Override
 	public String toString() {
-	    // TODO Auto-generated method stub
+
 	    return this.name + "\t" + score;
 	}
  
 	@Override
 	public int compareTo(WordEntry o) {
-	    // TODO Auto-generated method stub
+
 	    if (this.score > o.score) {
 		return -1;
 	    } else {
@@ -191,7 +191,7 @@ public class Word2VEC {
     }
  
     /**
-     * 得到词向量
+     * Get the word vector
      * 
      * @param word
      * @return
@@ -207,7 +207,7 @@ public class Word2VEC {
     }
  
     /**
-     * 读取一个float
+     * Read a float
      * 
      * @param b
      * @return
@@ -222,14 +222,14 @@ public class Word2VEC {
     }
  
     /**
-     * 读取一个字符串
+     * Read a string
      * 
      * @param dis
      * @return
      * @throws IOException
      */
     private static String readString(DataInputStream dis) throws IOException {
-	// TODO Auto-generated method stub
+ 
 	byte[] bytes = new byte[MAX_SIZE];
 	byte b = dis.readByte();
 	int i = -1;
